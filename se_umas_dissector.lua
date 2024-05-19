@@ -1,7 +1,5 @@
 -- References:
 --   * https://wiki.wireshark.org/Lua/Dissectors
---   * 
-
 
 
 -- declare global parameters
@@ -26,30 +24,40 @@ protocol_se_umas.fields = { field_umas_session_id, field_umas_func_code, field_u
 
 
 -- https://hitcon.org/2021/agenda/b128a44d-c492-410f-b04c-045548ce0590/Debacle%20of%20The%20Maginot%20Line%EF%BC%9AGoing%20Deeper%20into%20Schneider%20Modicon%20PAC%20Security.pdf
+-- http://lirasenlared.blogspot.com/2017/08/the-unity-umas-protocol-part-i.html
 -- map decimal SE UMAS function code to a descriptive name for the code
 local map_se_umas_func_code_to_name = {
-    [1] = "0x01: Get comm info",
+    [1] = "0x01: Get comm info (init. UMAS comms)",
     [2] = "0x02: Get PLC info",
-    [3] = "0x03: GAI object info",
+    [3] = "0x03: GAI object info (read proj. info)", 
     [4] = "0x04: Get PLC status",
     [5] = "0x05: Get loader info",
     [6] = "0x06: Get memory card info",
     [7] = "0x07: Get block info",
-    [10] = "0x0a: Mirror",
+    -- [8] = "0x08: ", -- missing
+    -- [9] = "0x09: ", -- missing
+    [10] = "0x0a: Mirror", 
+    -- [11] = "0x0b: ", -- missing
+    -- [12] = "0x0c: ", -- missing
+    -- [13] = "0x0d: ", -- missing
+    -- [14] = "0x0e: ", -- missing
+    -- [15] = "0x0f: ", -- missing
     [16] = "0x10: Take PLC reservation",
     [17] = "0x11: Release PLC reservation",
     [18] = "0x12: Keep PLC reservation",
+    -- missing --
     [32] = "0x20: Read memory block",
     [33] = "0x21: Write memory block",
-    [34] = "0x22: Read BOL",
-    [35] = "0x23: Write BOL",
-    [36] = "0x24: Read var list",
-    [37] = "0x25: Write var list",
+    [34] = "0x22: Read BOL (read variables)", 
+    [35] = "0x23: Write BOL (write variables)", 
+    [36] = "0x24: Read var list (read coils reg.)",
+    [37] = "0x25: Write var list (write coils reg.)",
     [38] = "0x26: Data dictionary",
     [39] = "0x27: Data dictionary preload",
     [40] = "0x28: Read phy. address",
     [41] = "0x29: Write phy. address",
     [42] = "0x2a: Browse events",
+    -- missing --
     [48] = "0x30: Begin download",
     [49] = "0x31: Download packet",
     [50] = "0x32: End download",
@@ -58,15 +66,21 @@ local map_se_umas_func_code_to_name = {
     [53] = "0x35: End upload",
     [54] = "0x36: Do backup/restore backup/compare backup/clear backup",
     [55] = "0x37: Pre-load blocks",
-    [64] = "0x40: Start task",
-    [65] = "0x41: Stop task",
+    -- [56] = "0x38: ", -- missing
+    [57] = "0x39: Read ethernet master data",
+    -- missing --
+    [64] = "0x40: Start task (start PLC)",
+    [65] = "0x41: Stop task (stop PLC)",
     [66] = "0x42: Init. PLC",
     [67] = "0x43: Swap",
-    [80] = "0x50: Req. analyse",
+    -- missing --
+    [80] = "0x50: Req. analyse (monitor PLC)",
     [81] = "0x51: Get auto modif",
     [82] = "0x52: Get forced bits",
     [83] = "0x53: Get selected blocks",
-    [88] = "0x58: Query diag.",
+    -- missing --
+    [88] = "0x58: Query diag. (check PLC)",
+    -- missing --
     [96] = "0x60: Breakpoint set",
     [97] = "0x61: Breakpoint reset/delete",
     [98] = "0x62: Step over",
@@ -74,14 +88,17 @@ local map_se_umas_func_code_to_name = {
     [100] = "0x64: Step out",
     [101] = "0x65: Get call stack",
     [102] = "0x66: Check debug allowed",
+    -- missing --
     [108] = "0x6c: Process msg.",
     [109] = "0x6d: Private msg.",
     [110] = "0x6e: Enhanced resv. mngt.",
+    -- [111] = "0x6f: ",
     [112] = "0x70: Request read IO obj.",
     [113] = "0x71: Request write IO obj.",
     [114] = "0x72: Read rack",
-    [115] = "0x73: Read module",
+    [115] = "0x73: Read module (Get module status)",
     [116] = "0x74: Read device data",
+    -- missing --
     [253] = "0xfd: Response (error)",
     [254] = "0xfe: Response (success)"
 }
