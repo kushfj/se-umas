@@ -1,6 +1,6 @@
-# Schneider Electric Unified MEssaging Application Services 
+# Schneider Electric Unified Messaging Application Services 
 
-Repository for Schneider Electric (SE) Unified Messaging Application Services (UMAS) stuff
+Repository for Schneider Electric (SE) Unified Messaging Application Services (UMAS) Wireshark dissector
 
 The repository started as part of the DFRWS 2023 challenge (The Troubled Elevator) takes a deep dive into the domain of Industrial Control Systems (ICS), specifically focusing on programmable logic controllers (PLC), which can be found at https://github.com/dfrws/dfrws2023-challenge.
 
